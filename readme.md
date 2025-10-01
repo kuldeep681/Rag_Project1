@@ -1,0 +1,1 @@
+This is my personal rag based assistant who mimics me and can answer on behalf of me feel to try it out.
