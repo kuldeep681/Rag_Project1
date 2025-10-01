@@ -19,10 +19,8 @@ def get_secret_key(key_name):
     Retrieves key securely from Streamlit secrets (Cloud) or os.getenv (Local Dev).
     This function replaces direct reliance on the .env file.
     """
-    # 1. Check Streamlit's secure secrets (for Cloud Deployment)
     if key_name in st.secrets:
         return st.secrets[key_name]
-    # 2. Fallback to OS environment (for Local Testing)
     return os.getenv(key_name)
 
 def setup_environment():
@@ -30,21 +28,20 @@ def setup_environment():
     Fetches necessary keys and sets environment variables for LangChain/Groq.
     This replaces load_dotenv().
     """
-    # MANDATORY: Retrieve the Groq key
+
     groq_key = get_secret_key("GROQ_API_KEY")
 
     if not groq_key:
         st.error("Deployment Error: GROQ_API_KEY is missing from Streamlit Secrets. Please set it securely.")
         st.stop()
         
-    # Set the key into the environment for the LLM client
+
     os.environ["GROQ_API_KEY"] = groq_key
     
-    # OPTIONAL: Handle LangSmith tracing keys
+
     langchain_key = get_secret_key("LANGCHAIN_API_KEY")
     if langchain_key:
         os.environ["LANGCHAIN_API_KEY"] = langchain_key
-        # Check and set other optional tracing environment vars
         os.environ["LANGCHAIN_TRACING_V2"] = get_secret_key("LANGCHAIN_TRACING_V2") or "true"
         os.environ["LANGCHAIN_PROJECT"] = get_secret_key("LANGCHAIN_PROJECT") or "RAG_PROJECT"
         logging.info("LangSmith Tracing Enabled.")
@@ -53,7 +50,6 @@ def setup_environment():
 
 if __name__ == "__main__":
 
-    #load_dotenv()
     setup_environment() 
 
     logging.basicConfig(level=logging.INFO)
@@ -74,7 +70,6 @@ if __name__ == "__main__":
             )
             splits = text_splitter.split_documents(docs)
 
-            #embedding_function = OpenAIEmbeddings()
             embedding_function = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
             persistent_path = "./data/vectorstore"
 
@@ -91,7 +86,7 @@ if __name__ == "__main__":
             return None
         
     customer_data = get_user_data()
-    #vector_store = init_vector_store("data/portfolio.pdf")
+
     vector_store = init_vector_store("data/portfolio1.pdf")
 
     if "customer" not in st.session_state:
@@ -101,8 +96,6 @@ if __name__ == "__main__":
 
      
 
-    #llm = ChatGroq(model="llama-3.1-8b-instant")
-    #llm = ChatGroq(model="llama-3.1-8b-instant", groq_api_key=os.getenv("GROQ_API_KEY"))
     llm = ChatGroq(model="llama-3.1-8b-instant", groq_api_key=get_secret_key("GROQ_API_KEY"))
      
 
