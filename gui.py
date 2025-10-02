@@ -60,6 +60,22 @@ class AssistantGUI:
     
 
     def render(self):
+        # --- CSS Injection to reduce top spacing in the sidebar ---
+        st.markdown(
+            """
+            <style>
+            section[data-testid="stSidebar"] {
+            padding-top: 0rem !important;
+            }
+            div[data-testid="stSidebarContent"] {
+            padding-top: 0rem !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+        # --- END CSS Injection ---
+    
         # Access the raw employee information dictionary directly
         employee_info = self.employee_information 
 
@@ -134,9 +150,15 @@ class AssistantGUI:
             department_value = employee_info.get('department', 'N/A')
             st.markdown(f"**Department:** <span style='{orange_style}'>{department_value}</span>", unsafe_allow_html=True)
 
-            # Email (Value is Orange)
+            # # Email (Value is Orange)
+            # email_value = employee_info.get('email', 'N/A')
+            # st.markdown(f"**Email:** <span style='{orange_style}'>{email_value}</span>", unsafe_allow_html=True)
+
+            # Email (Value is Orange, NO UNDERLINE/BLUE LINK)
             email_value = employee_info.get('email', 'N/A')
-            st.markdown(f"**Email:** <span style='{orange_style}'>{email_value}</span>", unsafe_allow_html=True)
+            st.markdown(
+                f"**Email:** <span style='color: #FFA500; font-weight: 500; text-decoration: none;'>{email_value}</span>", 
+                unsafe_allow_html=True)
         
             # Phone (Value is Orange)
             phone_value = employee_info.get('phone_number', 'N/A')
