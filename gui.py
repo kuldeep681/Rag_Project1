@@ -60,25 +60,6 @@ class AssistantGUI:
     
 
     def render(self):
-    # --- NEW CSS INJECTION TO REDUCE TOP SPACING ---
-        st.markdown(
-            """
-            <style>
-                /* Targets the main column container that wraps ALL content inside the sidebar */
-                div.css-vk325u { /* This is often the div that adds the top padding */
-                padding-top: 0rem !important;
-                }
-            
-                /* Targets the entire sidebar block's padding */
-                section[data-testid="stSidebar"] > div {
-                    padding-top: 0rem !important;
-                }
-            </style>
-            """,
-            unsafe_allow_html=True,
-        )
-        # --- END CSS Injection ---
-    
         # Access the raw employee information dictionary directly
         employee_info = self.employee_information 
 
@@ -158,10 +139,14 @@ class AssistantGUI:
             # st.markdown(f"**Email:** <span style='{orange_style}'>{email_value}</span>", unsafe_allow_html=True)
 
             # Email (Value is Orange, NO UNDERLINE/BLUE LINK)
-            email_value = employee_info.get('email', 'N/A')
-            email_style_fix = "color: #FFA500; font-weight: 500; text-decoration: none;"
+            email_full = employee_info.get('email', 'N/A')
+            if '@' in email_full:
+                part1, part2 = email_full.split('@', 1)
+                email_value = f"{part1}&#64;{part2}" # Use HTML entity for '@'
+            else:
+                email_value = email_full
             st.markdown(
-                f"**Email:** <span style='{email_style_fix}'>{email_value}</span>", 
+                f"**Email:** <span style='{orange_style}'>{email_value}</span>", 
                 unsafe_allow_html=True)
         
             # Phone (Value is Orange)
