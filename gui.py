@@ -60,16 +60,19 @@ class AssistantGUI:
     
 
     def render(self):
-        # --- CSS Injection to reduce top spacing in the sidebar ---
+    # --- NEW CSS INJECTION TO REDUCE TOP SPACING ---
         st.markdown(
             """
             <style>
-            section[data-testid="stSidebar"] {
-            padding-top: 0rem !important;
-            }
-            div[data-testid="stSidebarContent"] {
-            padding-top: 0rem !important;
-            }
+                /* Targets the main column container that wraps ALL content inside the sidebar */
+                div.css-vk325u { /* This is often the div that adds the top padding */
+                padding-top: 0rem !important;
+                }
+            
+                /* Targets the entire sidebar block's padding */
+                section[data-testid="stSidebar"] > div {
+                    padding-top: 0rem !important;
+                }
             </style>
             """,
             unsafe_allow_html=True,
@@ -156,8 +159,9 @@ class AssistantGUI:
 
             # Email (Value is Orange, NO UNDERLINE/BLUE LINK)
             email_value = employee_info.get('email', 'N/A')
+            email_style_fix = "color: #FFA500; font-weight: 500; text-decoration: none;"
             st.markdown(
-                f"**Email:** <span style='color: #FFA500; font-weight: 500; text-decoration: none;'>{email_value}</span>", 
+                f"**Email:** <span style='{email_style_fix}'>{email_value}</span>", 
                 unsafe_allow_html=True)
         
             # Phone (Value is Orange)
