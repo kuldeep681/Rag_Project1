@@ -44,7 +44,8 @@ class AssistantGUI:
 
     def render(self):
         with st.sidebar:
-            st.logo("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGo0bTRwNDBmNXY5bHhxaDJ4ZTIwamxlMmEwdWVkZG14MXV4czJrbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GghGKaZ8JeHJx0apQC/giphy.gif")
+            st.image("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGo0bTRwNDBmNXY5bHhxaDJ4ZTIwamxlMmEwdWVkZG14MXV4czJrbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GghGKaZ8JeHJx0apQC/giphy.gif",
+                     width=80 )
             st.title("Interview Me")
 
             st.subheader("Employee Information")
