@@ -39,35 +39,14 @@ class AssistantGUI:
             self.messages.append({"role": "ai", "content": response})
 
             self.set_state("messages", self.messages)
-
-
-
-    # def render(self):
-    #     with st.sidebar:
-    #         st.image("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGo0bTRwNDBmNXY5bHhxaDJ4ZTIwamxlMmEwdWVkZG14MXV4czJrbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GghGKaZ8JeHJx0apQC/giphy.gif",
-    #                  width=80 )
-    #         st.title("Interview Me")
-
-    #         st.subheader("Employee Information")
-    #         st.write(self.employee_information)
-
-    #     self.render_messages()
-
-    #     self.render_user_input()
-
-
-
-    
-
+ 
     def render(self):
-        # Access the raw employee information dictionary directly
         employee_info = self.employee_information 
-
         orange_style = "color: #FFA500; font-weight: 500;"
         
         with st.sidebar:
             # --- START: Branding Header (Styled and Aligned) ---
-            # Define columns to put the image and title side-by-side
+
             col1, col2 = st.columns([1, 3])  
 
             with col1:
@@ -77,7 +56,7 @@ class AssistantGUI:
                 )
 
             with col2:
-                # Custom Markdown for a stylish, vertically centered title
+                # Custom title
                 st.markdown(
                     """
                     <div style="
@@ -97,11 +76,11 @@ class AssistantGUI:
                 )
             # --- END: Branding Header ---
         
-            # Add a custom styled separator line
+            # Custom styled separator line
             st.markdown("<hr style='border: 1px solid #444444; margin-top: 10px; margin-bottom: 20px;'>", unsafe_allow_html=True) 
 
         
-            # --- START: Employee Profile Context Badge ---
+            # --- START: Profile Details Badge ---
             st.markdown(
                 """
                 <div style="
@@ -118,49 +97,34 @@ class AssistantGUI:
             )
             # --- START: Structured Data Display ---
         
-            # 1. Display Full Name (Value is Orange)
+            # 1. Display Name 
             name_value = employee_info.get('name', 'N/A') + " " + employee_info.get('lastname', '')
             st.markdown(f"**Name:** <span style='{orange_style}'>{name_value}</span>", unsafe_allow_html=True)
 
-            # 2. Highlight the Goal (The st.info box is visually distinct, but we'll color the value)
+            # 2. Display Goal 
             goal_value = employee_info.get('current_goal', 'N/A')
             st.markdown(f"**Goal:** <span style='{orange_style}'>{goal_value}</span>", unsafe_allow_html=True)
 
-            # 3. Display Position (Value is Orange)
+            # 3. Display Position 
             position_value = employee_info.get('position', 'N/A')
             st.markdown(f"**Position:** <span style='{orange_style}'>*{position_value}*</span>", unsafe_allow_html=True)
 
-            # 4. Display Department (Value is Orange)
+            # 4. Display Department
             department_value = employee_info.get('department', 'N/A')
             st.markdown(f"**Department:** <span style='{orange_style}'>{department_value}</span>", unsafe_allow_html=True)
 
-            # # Email (Value is Orange)
-            # email_value = employee_info.get('email', 'N/A')
-            # st.markdown(f"**Email:** <span style='{orange_style}'>{email_value}</span>", unsafe_allow_html=True)
-
-            # Email (Value is Orange, NO UNDERLINE/BLUE LINK)
-            email_full = employee_info.get('email', 'N/A')
-            if '@' in email_full:
-                part1, part2 = email_full.split('@', 1)
-                email_value = f"{part1}&#64;{part2}" # Use HTML entity for '@'
-            else:
-                email_value = email_full
-            st.markdown(
-                f"**Email:** <span style='{orange_style}'>{email_value}</span>", 
-                unsafe_allow_html=True)
+            # 5. Display Email
+            email_value = employee_info.get('email', 'N/A')
+            st.markdown(f"**Email:** <span style='{orange_style}'>{email_value}</span>", unsafe_allow_html=True)
         
-            # Phone (Value is Orange)
+            # 6. Display Phone
             phone_value = employee_info.get('phone_number', 'N/A')
             st.markdown(f"**Phone:** <span style='{orange_style}'>{phone_value}</span>", unsafe_allow_html=True)
 
-            # 5. Display the Skills (0-indexed using st.json)
+            # 7. Display Skills
             st.subheader("Technical Skills:")
-        
-            # st.json is used to show the raw list, which displays the 0-indexed keys clearly
             st.json(employee_info.get('skills', []))
         
             # --- END: Structured Data Display ---
-            
-        # These functions render the main chat window content (outside the sidebar)
         self.render_messages()
         self.render_user_input()
