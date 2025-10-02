@@ -1,9 +1,7 @@
 from data.employees import generate_employee_data
-#from dotenv import load_dotenv
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-#from langchain_openai import OpenAIEmbeddings
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 import logging
@@ -48,6 +46,34 @@ def setup_environment():
 
 
 
+
+
+
+
+# 1. ADD THE FORMATTER FUNCTION HERE
+def format_skills_for_context(employee_data):
+    """Converts the list of skills into a 1-indexed, human-readable string."""
+    if 'skills' in employee_data and isinstance(employee_data['skills'], list):
+        # Create a list of "1. SkillName", "2. SkillName", etc.
+        indexed_skills = [
+            f"{i + 1}. {skill}" 
+            for i, skill in enumerate(employee_data['skills']) # i + 1 creates the 1-based index
+        ]
+        
+        # Store the formatted string in a new key for the system prompt to use
+        employee_data['skills_formatted'] = "\n".join(indexed_skills)
+        
+        # NOTE: The original 'skills' key is not deleted, as requested.
+        
+    return employee_data
+
+# ... (get_secret_key and setup_environment functions remain the same)
+
+
+
+
+
+
 if __name__ == "__main__":
 
     setup_environment() 
@@ -57,8 +83,13 @@ if __name__ == "__main__":
     st.set_page_config(page_title="Personal Help", page_icon="🖥️", layout="wide")
 
     @st.cache_data(ttl=3600, show_spinner="Loading Employee Data....")
+    # def get_user_data():
+    #     return generate_employee_data(1)[0]
     def get_user_data():
-        return generate_employee_data(1)[0]
+        raw_data = generate_employee_data(1)[0]
+        # ADD THE FUNCTION CALL HERE
+        formatted_data = format_skills_for_context(raw_data) 
+        return formatted_data # Return the newly formatted dictionary
     
     @st.cache_resource(ttl=3600, show_spinner="Loading Vector Store....")
     def init_vector_store(pdf_path):
@@ -109,112 +140,3 @@ if __name__ == "__main__":
 
     gui = AssistantGUI(assistant)
     gui.render()
-
-
-
-
-
-
-
-
-
-
-# from data.employees import generate_employee_data
-# from dotenv import load_dotenv
-# import streamlit as st
-# from langchain_community.document_loaders import PyPDFLoader
-# from langchain_text_splitters import RecursiveCharacterTextSplitter
-# #from langchain_openai import OpenAIEmbeddings
-# from langchain_huggingface import HuggingFaceEmbeddings
-# from langchain_chroma import Chroma
-# import logging
-# from assistant import Assistant
-# from prompts import SYSTEM_PROMPT, WELCOME_MESSAGE
-# from langchain_groq import ChatGroq
-# from gui import AssistantGUI
-# import os
-
-
-# if __name__ == "__main__":
-
-#     load_dotenv()
-
-#     logging.basicConfig(level=logging.INFO)
-
-#     st.set_page_config(page_title="Personal Help", page_icon="🖥️", layout="wide")
-
-#     @st.cache_data(ttl=3600, show_spinner="Loading Employee Data....")
-#     def get_user_data():
-#         return generate_employee_data(1)[0]
-#     
-#     @st.cache_resource(ttl=3600, show_spinner="Loading Vector Store....")
-#     def init_vector_store(pdf_path):
-#         try:
-#             loader = PyPDFLoader(pdf_path)
-#             docs = loader.load()
-#             text_splitter = RecursiveCharacterTextSplitter(
-#                 chunk_size=2000, chunk_overlap=200
-#             )
-#             splits = text_splitter.split_documents(docs)
-
-#             #embedding_function = OpenAIEmbeddings()
-#             embedding_function = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-#             persistent_path = "./data/vectorstore"
-
-#             vectorstore = Chroma.from_documents(
-#                 documents=splits,
-#                 embedding=embedding_function,
-#                 persist_directory=persistent_path
-#             )
-
-#             return vectorstore
-#         except Exception as e:
-#             logging.error(f"Error initializing vector store: {str(e)}")
-#             st.error(f"Failed to initialize vector store: {str(e)}")
-#             return None
-#         
-#     customer_data = get_user_data()
-#     #vector_store = init_vector_store("data/portfolio.pdf")
-#     vector_store = init_vector_store("data/portfolio1.pdf")
-
-#     if "customer" not in st.session_state:
-#         st.session_state.customer = customer_data
-#     if "messages" not in st.session_state:
-#         st.session_state.messages = [{"role": "ai", "content": WELCOME_MESSAGE}]
-
-#      
-
-#     #llm = ChatGroq(model="llama-3.1-8b-instant")
-#     llm = ChatGroq(model="llama-3.1-8b-instant", groq_api_key=os.getenv("GROQ_API_KEY"))
-#      
-
-#     assistant = Assistant(
-#         system_prompt=SYSTEM_PROMPT,
-#         llm=llm,
-#         message_history=st.session_state.messages,
-#         employee_information=st.session_state.customer,
-#         vector_store=vector_store,
-#     )
-
-#     gui = AssistantGUI(assistant)
-#     gui.render()
-#  this is app.py now tell me the changes and answer here in chat only 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
