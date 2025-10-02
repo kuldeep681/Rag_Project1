@@ -47,9 +47,6 @@ def setup_environment():
 
 
 
-
-
-
 # 1. ADD THE FORMATTER FUNCTION HERE
 def format_skills_for_context(employee_data):
     """Converts the list of skills into a 1-indexed, human-readable string."""
@@ -71,9 +68,6 @@ def format_skills_for_context(employee_data):
 
 
 
-
-
-
 if __name__ == "__main__":
 
     setup_environment() 
@@ -83,13 +77,8 @@ if __name__ == "__main__":
     st.set_page_config(page_title="Personal Help", page_icon="🖥️", layout="wide")
 
     @st.cache_data(ttl=3600, show_spinner="Loading Employee Data....")
-    # def get_user_data():
-    #     return generate_employee_data(1)[0]
     def get_user_data():
-        raw_data = generate_employee_data(1)[0]
-        # ADD THE FUNCTION CALL HERE
-        formatted_data = format_skills_for_context(raw_data) 
-        return formatted_data # Return the newly formatted dictionary
+        return generate_employee_data(1)[0]
     
     @st.cache_resource(ttl=3600, show_spinner="Loading Vector Store....")
     def init_vector_store(pdf_path):
