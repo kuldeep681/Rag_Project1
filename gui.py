@@ -124,7 +124,7 @@ class AssistantGUI:
 
             # 2. Highlight the Goal (The st.info box is visually distinct, but we'll color the value)
             goal_value = employee_info.get('current_goal', 'N/A')
-            st.info(f"**Goal:** <span style='{orange_style}'>{goal_value}</span>", unsafe_allow_html=True)
+            st.markdown(f"**Goal:** <span style='{orange_style}'>{goal_value}</span>", unsafe_allow_html=True)
 
             # 3. Display Position (Value is Orange)
             position_value = employee_info.get('position', 'N/A')
