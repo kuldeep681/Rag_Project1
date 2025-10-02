@@ -62,11 +62,13 @@ class AssistantGUI:
     def render(self):
         # Access the raw employee information dictionary directly
         employee_info = self.employee_information 
+
+        orange_style = "color: #FFA500; font-weight: 500;"
         
         with st.sidebar:
             # --- START: Branding Header (Styled and Aligned) ---
             # Define columns to put the image and title side-by-side
-            col1, col2 = st.columns([1, 4])  
+            col1, col2 = st.columns([1, 3])  
 
             with col1:
                 st.image(
@@ -81,7 +83,8 @@ class AssistantGUI:
                     <div style="
                     display: flex; 
                     align-items: center; 
-                    height: 80px; 
+                    height: 80px;
+                    padding-left: 20px; 
                     font-size: 26px; 
                     font-weight: 800; 
                     letter-spacing: 1px; 
@@ -108,30 +111,39 @@ class AssistantGUI:
                 font-weight: bold; 
                 color: #FFFFFF; 
                 margin-bottom: 15px;">
-                Employee Profile Context
+                PROFILE DETAILS
                 </div>
                 """, 
                 unsafe_allow_html=True
             )
             # --- START: Structured Data Display ---
         
-            # 1. Display Full Name
-            st.markdown(f"**Name:** {employee_info.get('name', 'N/A')} {employee_info.get('lastname', '')}")
+            # 1. Display Full Name (Value is Orange)
+            name_value = employee_info.get('name', 'N/A') + " " + employee_info.get('lastname', '')
+            st.markdown(f"**Name:** <span style='{orange_style}'>{name_value}</span>", unsafe_allow_html=True)
 
-            # 2. Highlight the Goal (Uses a styled blue box)
-            st.info(f"**Goal:** {employee_info.get('current_goal', 'N/A')}")
+            # 2. Highlight the Goal (The st.info box is visually distinct, but we'll color the value)
+            goal_value = employee_info.get('current_goal', 'N/A')
+            st.info(f"**Goal:** <span style='{orange_style}'>{goal_value}</span>", unsafe_allow_html=True)
 
-            # 3. Display Position and Department 
-            st.markdown(f"**Position:** *{employee_info.get('position', 'N/A')}*")
-            st.markdown(f"**Department:** {employee_info.get('department', 'N/A')}")
+            # 3. Display Position (Value is Orange)
+            position_value = employee_info.get('position', 'N/A')
+            st.markdown(f"**Position:** <span style='{orange_style}'>*{position_value}*</span>", unsafe_allow_html=True)
 
-            # 4. Display Contact Information (Grouped)
-            st.subheader("Contact")
-            st.markdown(f"**Email:** {employee_info.get('email', 'N/A')}")
-            st.markdown(f"**Phone:** {employee_info.get('phone_number', 'N/A')}")
+            # 4. Display Department (Value is Orange)
+            department_value = employee_info.get('department', 'N/A')
+            st.markdown(f"**Department:** <span style='{orange_style}'>{department_value}</span>", unsafe_allow_html=True)
+
+            # Email (Value is Orange)
+            email_value = employee_info.get('email', 'N/A')
+            st.markdown(f"**Email:** <span style='{orange_style}'>{email_value}</span>", unsafe_allow_html=True)
+        
+            # Phone (Value is Orange)
+            phone_value = employee_info.get('phone_number', 'N/A')
+            st.markdown(f"**Phone:** <span style='{orange_style}'>{phone_value}</span>", unsafe_allow_html=True)
 
             # 5. Display the Skills (0-indexed using st.json)
-            st.subheader("Technical Skills")
+            st.subheader("Technical Skills:")
         
             # st.json is used to show the raw list, which displays the 0-indexed keys clearly
             st.json(employee_info.get('skills', []))
