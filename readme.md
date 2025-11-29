@@ -2,7 +2,7 @@
 
 A lightweight, intelligent Retrieval-Augmented Generation (RAG) chatbot that answers questions using your own documents, combined with the reasoning power of Large Language Models.
 
-**👉 Live Demo:** [Your Demo Link Here]
+**👉 Live Demo:** https://rag-project-assistant.streamlit.app/
 **👉 GitHub Repo:** https://github.com/kuldeep681/Rag_Project1
 
 ---
