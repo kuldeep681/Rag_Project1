@@ -19,7 +19,7 @@ Modern AI models generate great answers, but they hallucinate when they don't kn
 
 - Use an LLM to generate accurate, grounded answers
 
-This project is my first complete step into building a production-style RAG application.
+This project is my first step into building a production-style RAG application.
 
 ---
 
