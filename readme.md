@@ -226,6 +226,12 @@ If you'd like help improving this RAG project or expanding it to a full intellig
 
 ## 📧 **Email:** kuldeepmandal175514@gmail.com
 
-## 🔗 **LinkedIn:** https://www.linkedin.com/in/kuldeep-mandal175514/
+## 🔗 **LinkedIn:** [https://www.linkedin.com/in/kuldeep-mandal175514/](https://www.linkedin.com/in/kuldeep-mandal175514)
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
 
 ---
