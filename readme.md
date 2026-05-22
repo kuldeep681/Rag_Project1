@@ -224,7 +224,7 @@ No separate backend server is required — Streamlit handles both the interface 
 
 If you'd like help improving this RAG project or expanding it to a full intelligent assistant:
 
-## 📧 **Email:** kuldeepmandal175514@gmail.com
+## 📧 **Email:** [kuldeepmandal175514@gmail.com](mailto:kuldeepmandal175514@gmail.com)
 
 ## 🔗 **LinkedIn:** [https://www.linkedin.com/in/kuldeep-mandal175514/](https://www.linkedin.com/in/kuldeep-mandal175514)
 
